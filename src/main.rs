@@ -37,7 +37,8 @@ fn main() {
             // error.
             file.read_to_string(&mut contents).expect("Unable to read to string");
 
-
+            // interpret the brainfuck code
+            brainfuck(contents);
             return
         }
 
