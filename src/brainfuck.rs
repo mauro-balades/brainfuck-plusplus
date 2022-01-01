@@ -17,6 +17,12 @@ pub fn brainfuck(programm: String) {
             // Decrement value by 1 in current cell possition
             '-' => cells[*possition] -= 1,
 
+            // Move the current possition to the next cell
+            '>' => *possition += 1,
+
+            // Go back one cell
+            '<' => *possition -= 1,
+
             // In Brainfuck, other ASCII characters that
             // are not ["+", ",", "-", "<", ">", ".", "[", "]"]
             // they are considered as comments, so we do nothing.
