@@ -1,8 +1,9 @@
 use std::mem;
 use std::str::Chars;
 
+
 pub fn brainfuck(programm: String) {
-    let mut cells: [i32; 3000] = [0; 3000];
+    let mut cells: [u8; 3000] = [0; 3000];
     let possition: &mut usize = &mut 0;
     let chars: Chars = programm.chars();
 
@@ -23,6 +24,9 @@ pub fn brainfuck(programm: String) {
             // Go back one cell
             '<' => *possition -= 1,
 
+            // Print the current cell's ASCII value.
+            '.' => print!("{}", cells[*possition] as char),
+
             // In Brainfuck, other ASCII characters that
             // are not ["+", ",", "-", "<", ">", ".", "[", "]"]
             // they are considered as comments, so we do nothing.
@@ -32,6 +36,6 @@ pub fn brainfuck(programm: String) {
         index += 1;
     }
 
-    println!("{:?}", cells);
-
+    // TODO: add a debug option
+    // println!("{:?}", cells);
 }
