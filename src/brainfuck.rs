@@ -1,5 +1,6 @@
 use std::mem;
 use std::str::Chars;
+use std::io::Read;
 
 
 pub fn brainfuck(programm: String) {
@@ -26,6 +27,19 @@ pub fn brainfuck(programm: String) {
 
             // Print the current cell's ASCII value.
             '.' => print!("{}", cells[*possition] as char),
+
+            // Set value from stdin to the current cell
+            ',' => {
+                // declare a new buffer array containing a
+                // 'u8' type number to store a character code
+                let mut buf = [0; 1];
+
+                // Read input and check if an error has occoured.
+                match std::io::stdin().read_exact(&mut buf) {
+                    Ok(_) => cells[*possition] = buf[0], // Add buffer from input
+                    Err(_) => {}, // TODO: error
+                }
+            },
 
             // In Brainfuck, other ASCII characters that
             // are not ["+", ",", "-", "<", ">", ".", "[", "]"]
