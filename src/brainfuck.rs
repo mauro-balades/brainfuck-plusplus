@@ -40,7 +40,7 @@ fn do_right_bracket(chars: Chars, index: i32) -> i32 {
 
 pub fn brainfuck(programm: String, debug: i32) -> [u8; 3000] {
     let mut cells: [u8; 3000] = [0; 3000];
-    let mut max: i32 = 0;
+    let mut max: i32 = 1;
     let possition: &mut usize = &mut 0;
     let chars: Chars = programm.chars();
 
@@ -110,8 +110,8 @@ pub fn brainfuck(programm: String, debug: i32) -> [u8; 3000] {
 
         index += 1;
 
-        if *possition as i32 > max {
-            max = *possition as i32;
+        if (*possition as i32) + 1 > max {
+            max = (*possition as i32) + 1;
         }
     }
 
@@ -121,6 +121,6 @@ pub fn brainfuck(programm: String, debug: i32) -> [u8; 3000] {
             println!("c[{}]: {}", i, cells[i as usize]);
         }
     }
-    // println!("{:?}", cells);
+
     return cells;
 }
