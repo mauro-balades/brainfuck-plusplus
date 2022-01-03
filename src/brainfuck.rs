@@ -1,4 +1,3 @@
-use std::mem;
 use std::str::Chars;
 use std::io::Read;
 
