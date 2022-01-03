@@ -1,4 +1,4 @@
-add to [cell 1]
+add to cell 1
 ++
 move to the right
 >
@@ -9,4 +9,4 @@ move to the left
 remove 1
 -
 
-result: [1 | 4 | 0]
+result: {1 | 4 | 0}
