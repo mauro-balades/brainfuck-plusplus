@@ -40,6 +40,7 @@ fn do_right_bracket(chars: Chars, index: i32) -> i32 {
 
 pub fn brainfuck(programm: String, debug: i32) -> [u8; 3000] {
     let mut cells: [u8; 3000] = [0; 3000];
+    let mut max: i32 = 0;
     let possition: &mut usize = &mut 0;
     let chars: Chars = programm.chars();
 
@@ -56,10 +57,22 @@ pub fn brainfuck(programm: String, debug: i32) -> [u8; 3000] {
             '#' => if debug > 0 {println!("{}", cells[*possition])},
 
             // Increment value by 1 in current cell possition
-            '+' => cells[*possition] += 1,
+            '+' => {
+                if cells[*possition] == 255 {
+                    cells[*possition] = 0;
+                } else {
+                    cells[*possition] += 1
+                }
+            },
 
             // Decrement value by 1 in current cell possition
-            '-' => {cells[*possition] = *&mut ((cells[*possition] as usize).checked_sub(1)).unwrap_or_default() as u8;},
+            '-' => {
+                if cells[*possition] == 0 {
+                    cells[*possition] = 255;
+                } else {
+                    cells[*possition] = *&mut ((cells[*possition] as usize).checked_sub(1)).unwrap_or_default() as u8;
+                }
+            },
 
             // Move the current possition to the next cell
             '>' => *possition += 1,
@@ -94,9 +107,18 @@ pub fn brainfuck(programm: String, debug: i32) -> [u8; 3000] {
         }
 
         index += 1;
+
+        if *possition as i32 > max {
+            max = *possition as i32;
+        }
     }
 
-    // TODO: add a debug option
+    if debug > 1 {
+        println!("\n\n=== CELLS ===");
+        for i in 0..max {
+            println!("c[{}]: {}", i, cells[i as usize]);
+        }
+    }
     // println!("{:?}", cells);
     return cells;
 }
