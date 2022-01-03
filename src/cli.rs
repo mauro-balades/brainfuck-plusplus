@@ -3,46 +3,46 @@ use std::io::prelude::*;
 use std::env;
 use std::fs::*;
 use std::path::Path;
+use structopt::StructOpt;
 
 mod brainfuck;
 
 pub use brainfuck::*;
 
+#[derive(StructOpt, Debug)]
+#[structopt(name = "Brainfuck")]
+struct Opt {
+
+    // The number of occurrences of the `v/verbose` flag
+    /// Verbose mode (-v, -vv, -vvv, etc.)
+    #[structopt(short, long, parse(from_occurrences))]
+    verbose: i32,
+
+    #[structopt(name = "FILE")]
+    file: String,
+}
+
 fn main() {
-    // Get command line arguments
-    let args: Vec<String> = env::args().collect();
 
-    // Check if user has typed an argument
-    if args.len() > 0 {
+    // Parse arguments with StructOpt
+    let opt = Opt::from_args();
 
-        // Get filename.
-        // We asume that filename is in
-        // the possition [1].
-        // TODO: check for more commands
-        let filename = &args[1];
+    // check if file eixsts
+    if Path::new(&opt.file).exists() {
 
-        // check if file eixsts
-        if Path::new(filename).exists() {
+        // Open file
+        let mut file = File::open(&opt.file).expect("Error opening File");
 
-            // Open file
-            let mut file = File::open(&filename).expect("Error opening File");
+        // Define file's contents as a new String
+        let mut contents = String::new();
 
-            // Define file's contents as a new String
-            let mut contents = String::new();
+        // Read file's contents and store it as a String
+        // in [contents]. If it does not work, throw an
+        // error.
+        file.read_to_string(&mut contents).expect("Unable to read to string");
 
-            // Read file's contents and store it as a String
-            // in [contents]. If it does not work, throw an
-            // error.
-            file.read_to_string(&mut contents).expect("Unable to read to string");
-
-            // interpret the brainfuck code
-            brainfuck(contents);
-            return
-        }
-
-        // TODO: print error
-
-    } else {
-        // Error, filename was not given
+        // interpret the brainfuck code
+        brainfuck(contents, opt.verbose);
+        return
     }
 }

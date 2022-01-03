@@ -38,7 +38,7 @@ fn do_right_bracket(chars: Chars, index: i32) -> i32 {
     return ix
 }
 
-pub fn brainfuck(programm: String) {
+pub fn brainfuck(programm: String, debug: i32) -> [u8; 3000] {
     let mut cells: [u8; 3000] = [0; 3000];
     let possition: &mut usize = &mut 0;
     let chars: Chars = programm.chars();
@@ -48,6 +48,13 @@ pub fn brainfuck(programm: String) {
         let cur_char = chars.clone().nth(index.try_into().unwrap()).unwrap();
 
         match cur_char {
+
+            // # does not actually appear in brainfuck's docs.
+            // This character is used to debug only supported
+            // in this interpreter (if debug option is set to
+            // true)
+            '#' => if debug > 0 {println!("{}", cells[*possition])},
+
             // Increment value by 1 in current cell possition
             '+' => cells[*possition] += 1,
 
@@ -91,4 +98,5 @@ pub fn brainfuck(programm: String) {
 
     // TODO: add a debug option
     // println!("{:?}", cells);
+    return cells;
 }
