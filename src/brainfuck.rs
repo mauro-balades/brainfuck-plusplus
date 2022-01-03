@@ -7,8 +7,6 @@ fn do_left_bracket(chars: Chars, index: i32) -> i32 {
     while open != 0 {
         ix += 1;
 
-        // TODO: check if code ended
-
         match chars.clone().nth(ix.try_into().unwrap()).unwrap() {
             '[' => open += 1,
             ']' => open -= 1,
@@ -25,7 +23,9 @@ fn do_right_bracket(chars: Chars, index: i32) -> i32 {
     while close != 0 {
         ix -= 1;
 
-        // TODO: check if code ended
+        if ix >= chars.clone().count().try_into().unwrap() {
+            panic!("couldn't find next matching ']'");
+        }
 
         match chars.clone().nth(ix.try_into().unwrap()).unwrap() {
             '[' => close -= 1,
@@ -96,8 +96,10 @@ pub fn brainfuck(programm: String, debug: i32) -> [u8; 3000] {
                 }
             },
 
-
+            // Left brackets are like c while(cur_block_value != 0) loop.
             '[' => if cells[*possition] == 0  {index = do_left_bracket(chars.clone(), index)},
+
+            // if block currently pointed to's value is not zero, jump back to [
             ']' => if cells[*possition] != 0  {index = do_right_bracket(chars.clone(), index)},
 
             // In Brainfuck, other ASCII characters that
