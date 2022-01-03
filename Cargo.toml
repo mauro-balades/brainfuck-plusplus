@@ -11,5 +11,11 @@ path = "src/cli.rs"
 test = false
 bench = false
 
+[lib]
+crate-type = ["cdylib"]
+bench = false
+doc = true
+path = "src/brainfuck.rs"
+
 [dependencies]
 structopt = "0.3"

@@ -83,8 +83,8 @@ Here are some ideas:
     * [`todo`]     JS
 * More language extensions
  * `#` for cell debuging :tick:
- * ^   for importing other files
- * {}  if statemets (for checking if cells are the same).
+ * `^`   for importing other files
+ * `{}`  if statemets (for checking if cells are the same).
 
 ## License
 
