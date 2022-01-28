@@ -1,0 +1,45 @@
+name: Rust
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: update
+      run: sudo apt update
+    - name: download rust
+      run: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    - name: Build
+      run: cargo build --verbose
+    - name: Run tests
+      run: cargo test --verbose
+
+    - name: run bf tests (skiping inputs)
+      run: |
+        cargo run -- test/add_and_sub.b
+        cargo run -- test/crazy.b
+        cargo run -- test/debug_symbol.b
+        cargo run -- test/loops.b
+        cargo run -- test/move_boundaries.b
+        cargo run -- test/right_and_left.b
+
+
+    - name: run bf examples
+      run: |
+        cargo run -- examples/factorial.b
+        cargo run -- examples/hello-world.b
+        cargo run -- examples/random-number.b
+        cargo run -- examples/hello-world2.b
+        cargo run -- examples/squares.b
+        cargo run -- examples/sum.b

@@ -66,8 +66,7 @@ fn main() {
 You can also get the used cells as a return value of the fuction.
 
 ```rust
-let cells: Chars = brainfuck(...);
-println!("{:?}", cells);
+let cells: [u8, 3000] = brainfuck(...);
 ```
 
 ## Ideas

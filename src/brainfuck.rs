@@ -88,10 +88,22 @@ pub fn brainfuck(programm: String, debug: i32) -> [u8; 3000] {
             },
 
             // Move the current possition to the next cell
-            '>' => *possition += 1,
+            '>' => {
+                if *possition as i32 == 2999 {
+                    *possition = 0
+                } else {
+                    *possition += 1
+                }
+            },
 
             // Go back one cell
-            '<' => {*possition = *&mut ((*possition as usize).checked_sub(1)).unwrap_or_default() as usize;},
+            '<' => {
+                if (*possition as i32) == 0 {
+                    *possition = 2999;
+                } else {
+                    *possition = *&mut ((*possition as usize).checked_sub(1)).unwrap_or_default() as usize;
+                }
+            },
 
             // Print the current cell's ASCII value.
             '.' => print!("{}", cells[*possition] as char),
@@ -136,4 +148,107 @@ pub fn brainfuck(programm: String, debug: i32) -> [u8; 3000] {
     }
 
     return cells;
+}
+
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn cell_add() {
+        let code: String = "+".to_string();
+        let cells = brainfuck(code, 0);
+        let mut res: [u8; 3000] = [0; 3000];
+
+        res[0] = 1;
+        assert_eq!(res, cells);
+    }
+
+    #[test]
+    fn cell_sub() {
+        let code: String = "-".to_string();
+        let cells = brainfuck(code, 10);
+        let mut res: [u8; 3000] = [0; 3000];
+
+        res[0] = 255;
+        assert_eq!(res, cells);
+    }
+
+    #[test]
+    fn cell_sub_plus() {
+        let code: String = "++-".to_string();
+        let cells = brainfuck(code, 0);
+        let mut res: [u8; 3000] = [0; 3000];
+
+        res[0] = 1;
+        assert_eq!(res, cells);
+    }
+
+    #[test]
+    fn cell_left() {
+        let code: String = ">+".to_string();
+        let cells = brainfuck(code, 0);
+        let mut res: [u8; 3000] = [0; 3000];
+
+        res[1] = 1;
+        assert_eq!(res, cells);
+    }
+
+    #[test]
+    fn cell_right() {
+        let code: String = "><+".to_string();
+        let cells = brainfuck(code, 0);
+        let mut res: [u8; 3000] = [0; 3000];
+
+        res[0] = 1;
+        assert_eq!(res, cells);
+    }
+
+    #[test]
+    fn cell_right_end() {
+        let code: String = "<+".to_string();
+        let cells = brainfuck(code, 0);
+        let mut res: [u8; 3000] = [0; 3000];
+
+        res[2999] = 1;
+        assert_eq!(res, cells);
+    }
+
+    #[test]
+    fn cell_left_end() {
+        let code: String = "<>+".to_string();
+        let cells = brainfuck(code, 0);
+        let mut res: [u8; 3000] = [0; 3000];
+
+        res[0] = 1;
+        assert_eq!(res, cells);
+    }
+
+    #[test]
+    fn cell_loop() {
+
+        // Move 5 to the left
+        // Loop and adding 1 to c1
+        // and removing 1 to c2
+        let code: String = ">+++++[<+>-]".to_string();
+        let cells = brainfuck(code, 0);
+        let mut res: [u8; 3000] = [0; 3000];
+
+        res[0] = 5;
+        assert_eq!(res, cells);
+    }
+
+    #[test]
+    fn comments() {
+        let code: String = "Lets add one (+) move to left (>) and add 2 (++)".to_string();
+        let cells = brainfuck(code, 0);
+        let mut res: [u8; 3000] = [0; 3000];
+
+        res[0] = 1;
+        res[1] = 2;
+        assert_eq!(res, cells);
+    }
+
+
 }
