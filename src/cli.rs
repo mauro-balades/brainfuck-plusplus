@@ -74,7 +74,7 @@ fn main() {
             brainfuck(contents, bf_config);
             return;
         }
+    } else {
+        repl(bf_config);
     }
-
-    repl(bf_config);
 }
