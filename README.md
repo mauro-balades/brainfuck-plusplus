@@ -18,7 +18,13 @@ The idea behind `brainfuck` is memory manipulation. Basically you are given an a
 . = like c putchar(). print 1 character to the console
 ```
 
-**note**: We have added a special character `#`. This character can be used if the level of debug is bigger than 1, what does it do? This character prints out the current cell's value as a number, not as a character.
+Extra characters:
+
+| Symbol 	| Activation argument     	| Description                                                            	|
+|--------	|-------------------------	|------------------------------------------------------------------------	|
+| `#`    	| `-v` or `-vv` or `-vvv` 	| This symbol is used to debug the current's cell value.                 	|
+| `!`    	| `--exit` or `-e`        	| The `!` symbol will be used to exit the programm with an exit code `2` 	|
+
 
 #### Some rules:
 
@@ -58,8 +64,11 @@ You will need to import the crate and a function called `brainfuck` will be impo
 use brainfuck::*;
 
 fn main() {
-    // Some brainfuck code   | Debug level
-    brainfuck("+++++++>++>-.", 0);
+    let bf_config =  BFConfig {
+        ..default_bf_config()
+    };
+
+    brainfuck("+++++++>++>-.", config);
 }
 ```
 
@@ -67,6 +76,34 @@ You can also get the used cells as a return value of the fuction.
 
 ```rust
 let cells: [u8, 3000] = brainfuck(...);
+```
+
+### Configuration
+
+
+```rust
+use brainfuck::*;
+
+...
+
+let bf_config =  BFConfig {
+    debug: 0,
+    exit_support: false,
+    ..default_bf_config() // support for default values
+};
+
+```
+
+This is the definition of the configuration's struct.
+```rust
+pub struct BFConfig {
+
+    // The level of verbosity (default to 0)
+    pub(crate) debug: i32,
+
+    // Add support for the `!` symbol.
+    pub(crate) exit_support: bool,
+}
 ```
 
 ## Ideas
@@ -78,12 +115,13 @@ Here are some ideas:
 * Make a REPL
 * compiler to other language
     * [`todo`] Python
-    * [`progress`] C
+    * [`todo`] C
     * [`todo`]     JS
 * More language extensions
- * `#` for cell debuging :tick:
- * `^`   for importing other files
- * `{}`  if statemets (for checking if cells are the same).
+    * `#` for cell debuging :tick:
+    * `!` for programm exit :tick:
+    * `^`   for importing other files
+    * `{}`  if statemets (for checking if cells are the same).
 
 ## License
 
