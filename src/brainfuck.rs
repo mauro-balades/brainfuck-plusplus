@@ -18,11 +18,6 @@ use std::io::Read;
 
 use crate::errors as bf_error;
 
-
-trait DefaultBFConfig {
-    fn default();
-}
-
 #[derive(Clone)]
 pub struct BFConfig {
 
