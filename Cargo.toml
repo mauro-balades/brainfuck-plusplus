@@ -22,3 +22,4 @@ path = "src/brainfuck.rs"
 
 [dependencies]
 structopt = "0.3"
+owo-colors = "3.2.0"

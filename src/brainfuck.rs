@@ -11,8 +11,12 @@
 // Copiright 2021 <mauro.balades@tutanota.com>
 //
 
+mod errors;
+
 use std::str::Chars;
 use std::io::Read;
+
+use crate::errors as bf_error;
 
 fn do_left_bracket(chars: Chars, index: i32) -> i32 {
     let mut ix: i32 = index;
@@ -37,7 +41,7 @@ fn do_right_bracket(chars: Chars, index: i32) -> i32 {
         ix -= 1;
 
         if ix >= chars.clone().count().try_into().unwrap() {
-            panic!("couldn't find next matching ']'");
+            bf_error::error("Syntax error".to_string(), "couldn't find next matching ']'".to_string());
         }
 
         match chars.clone().nth(ix.try_into().unwrap()).unwrap() {

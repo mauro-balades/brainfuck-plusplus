@@ -16,8 +16,10 @@ use std::fs::*;
 use std::path::Path;
 use structopt::StructOpt;
 
+mod errors;
 mod brainfuck;
 
+pub use errors::*;
 pub use brainfuck::*;
 
 #[derive(StructOpt, Debug)]
