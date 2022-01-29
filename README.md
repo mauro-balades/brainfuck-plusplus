@@ -39,6 +39,20 @@ block.
 - Loops may be nested as many times as you want. But all [ must have a corre-
 sponding ].
 
+## Installation
+
+To install it, simply add the following line to your `Cargo.toml`
+
+```
+mini-brainfuck = "0.1.3"
+```
+
+You can also install the CLI by doing:
+```shell
+$ cargo install mini-brainfuck
+$ brainfuck -V # Check the version for brainfuck.
+```
+
 ## Usage
 
 Humans need to learn in some way. This interpreter haves 2 parts, a CLI and a module that you can use to interpret brainfuck code.
@@ -106,6 +120,18 @@ pub struct BFConfig {
 }
 ```
 
+## Examples
+
+This is a hello world example in brainfuck.
+
+```bf
+>++++++++[<+++++++++>-]<.>++++[<+++++++>-]<+.+++++++..+++.>>++++++[<+++++++>-]<+
++.------------.>++++++[<+++++++++>-]<+.<.+++.------.--------.>>>++++[<++++++++>-
+]<+.
+```
+
+* [more examples](https://github.com/mauro-balades/mini-brainfuck/tree/main/examples)
+
 ## Ideas
 
 Brainfuck is a very small language that can be used for beginers to make their first turing complete programing language. Since it is so easy, there is always new ways to make this more interesting.
@@ -116,7 +142,7 @@ Here are some ideas:
 * compiler to other language
     * [`todo`] Python
     * [`todo`] C
-    * [`todo`]     JS
+    * [`todo`] JS
 * More language extensions
     * `#` for cell debuging :tick:
     * `!` for programm exit :tick:
@@ -125,4 +151,4 @@ Here are some ideas:
 
 ## License
 
-This project is under the license of [MIT](./LICENSE)
+This project is under the license of [MIT](https://github.com/mauro-balades/mini-brainfuck/blob/main/LICENSE)
