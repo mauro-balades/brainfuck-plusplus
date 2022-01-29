@@ -31,6 +31,11 @@ struct Opt {
     #[structopt(short, long, parse(from_occurrences))]
     verbose: i32,
 
+    // The number of occurrences of the `v/verbose` flag
+    /// Verbose mode (-v, -vv, -vvv, etc.)
+    #[structopt(short, long)]
+    exit: bool,
+
     #[structopt(name = "FILE")]
     file: Option<String>,
 }
@@ -39,6 +44,14 @@ fn main() {
 
     // Parse arguments with StructOpt
     let opt = Opt::from_args();
+
+    // Declare the brainfuck config with
+    // it's default values.
+    let bf_config =  BFConfig {
+        debug: opt.verbose,
+        exit_support: opt.exit,
+        ..default_bf_config()
+    };
 
     if ! opt.file.is_none() {
         let file_path = opt.file.as_ref().map(String::as_str).unwrap();
@@ -58,7 +71,7 @@ fn main() {
             file.read_to_string(&mut contents).expect("Unable to read to string");
 
             // interpret the brainfuck code
-            brainfuck(contents, opt.verbose);
+            brainfuck(contents, bf_config);
             return
         }
     }
