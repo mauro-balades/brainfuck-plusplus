@@ -18,9 +18,11 @@ use structopt::StructOpt;
 
 mod errors;
 mod brainfuck;
+mod repl;
 
 pub use errors::*;
 pub use brainfuck::*;
+pub use repl::*;
 
 #[derive(StructOpt, Debug)]
 #[structopt(name = "Brainfuck")]
@@ -76,5 +78,5 @@ fn main() {
         }
     }
 
-    println!("REPL IN PROGRESS");
+    repl(bf_config);
 }
