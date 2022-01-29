@@ -105,22 +105,32 @@ pub fn brainfuck(programm: String, config: BFConfig) -> [u8; 3000] {
             // in the configuration.
             '!' => if exit_support {std::process::exit(2);},
 
-            // Increment value by 1 in current cell possition
+            // Increment value by 1 in current cell possition.
+            // if the curren't value for the cell is 255,
+            // we will set it to 0.
             '+' => {
-                if cells[*possition] == 255 {
-                    cells[*possition] = 0;
+                let mut cell: u8 = cells[*possition];
+
+                if cell == 255 {
+                    cell = 0;
                 } else {
-                    cells[*possition] += 1
+                    cell = cell.wrapping_add(1);
                 }
+
+                cells[*possition] = cell;
             },
 
             // Decrement value by 1 in current cell possition
             '-' => {
-                if cells[*possition] == 0 {
-                    cells[*possition] = 255;
+                let mut cell: u8 = cells[*possition];
+
+                if cell == 0 {
+                    cell = 255;
                 } else {
-                    cells[*possition] = *&mut ((cells[*possition] as usize).checked_sub(1)).unwrap_or_default() as u8;
+                    cell = cell.wrapping_sub(1);
                 }
+
+                cells[*possition] = cell;
             },
 
             // Move the current possition to the next cell
