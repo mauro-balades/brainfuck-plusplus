@@ -23,6 +23,7 @@ trait DefaultBFConfig {
     fn default();
 }
 
+#[derive(Clone)]
 pub struct BFConfig {
 
     // The level of verbosity (default to 0)
@@ -99,7 +100,7 @@ pub fn brainfuck(programm: String, config: BFConfig) -> [u8; 3000] {
             // true)
             '#' => if debug > 0 {println!("{}", cells[*possition])},
 
-            // ! is a custom symbold, it can be used to exit
+            // `!` is a custom symbold, it can be used to exit
             // the programm with code 2. You can use it by
             // enable it by declaring exit_support as true
             // in the configuration.

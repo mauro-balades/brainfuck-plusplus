@@ -21,7 +21,7 @@ use crate::brainfuck::*;
 
 fn info() {
     print!(
-        "\n{}\n-----------------------------------------\n| Type \"{}\" or press CTRL + C to exit |\n-----------------------------------------\n\n",
+        "\n{}\n-----------------------------------------\n| Type {} or press CTRL + C to exit |\n-----------------------------------------\n",
         "Brainfuck REPL".bright_green(),
         "quit".bright_blue());
 }
@@ -33,13 +33,12 @@ pub fn repl(config: BFConfig) {
     // Make an infinite loop.
     loop {
         let input = get_input().unwrap();
-
-        // let cells = brainfuck(input, config);
+        brainfuck(input, config.clone());
     }
 }
 
 fn get_input() -> io::Result<String> {
-    print!("{}> ", "brainfuck".bright_blue());
+    print!("\n{} > ", "brainfuck".bright_blue());
     io::stdout().flush()?;
     BufReader::new(io::stdin())
         .lines()
