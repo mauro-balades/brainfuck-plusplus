@@ -11,8 +11,8 @@
 // Copiright 2021 <mauro.balades@tutanota.com>
 //
 
-use std::process;
 use owo_colors::OwoColorize;
+use std::process;
 
 pub fn error(exception: String, error: String) {
     println!("Brainfuck error");

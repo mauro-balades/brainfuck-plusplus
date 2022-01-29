@@ -13,14 +13,13 @@
 
 mod errors;
 
-use std::str::Chars;
 use std::io::Read;
+use std::str::Chars;
 
 use crate::errors as bf_error;
 
 #[derive(Clone)]
 pub struct BFConfig {
-
     // The level of verbosity (default to 0)
     pub(crate) debug: i32,
 
@@ -35,7 +34,6 @@ pub fn default_bf_config() -> BFConfig {
     }
 }
 
-
 fn do_left_bracket(chars: Chars, index: i32) -> i32 {
     let mut ix: i32 = index;
     let mut open = 1;
@@ -49,7 +47,7 @@ fn do_left_bracket(chars: Chars, index: i32) -> i32 {
         }
     }
 
-    return ix
+    return ix;
 }
 
 fn do_right_bracket(chars: Chars, index: i32) -> i32 {
@@ -59,7 +57,10 @@ fn do_right_bracket(chars: Chars, index: i32) -> i32 {
         ix -= 1;
 
         if ix >= chars.clone().count().try_into().unwrap() {
-            bf_error::error("Syntax error".to_string(), "couldn't find next matching ']'".to_string());
+            bf_error::error(
+                "Syntax error".to_string(),
+                "couldn't find next matching ']'".to_string(),
+            );
         }
 
         match chars.clone().nth(ix.try_into().unwrap()).unwrap() {
@@ -67,10 +68,9 @@ fn do_right_bracket(chars: Chars, index: i32) -> i32 {
             ']' => close += 1,
             _ => (),
         }
-
     }
 
-    return ix
+    return ix;
 }
 
 pub fn brainfuck(programm: String, config: BFConfig) -> [u8; 3000] {
@@ -88,18 +88,25 @@ pub fn brainfuck(programm: String, config: BFConfig) -> [u8; 3000] {
         let cur_char = chars.clone().nth(index.try_into().unwrap()).unwrap();
 
         match cur_char {
-
             // # does not actually appear in brainfuck's docs.
             // This character is used to debug only supported
             // in this interpreter (if debug option is set to
             // true)
-            '#' => if debug > 0 {println!("{}", cells[*possition])},
+            '#' => {
+                if debug > 0 {
+                    println!("{}", cells[*possition])
+                }
+            }
 
             // `!` is a custom symbold, it can be used to exit
             // the programm with code 2. You can use it by
             // enable it by declaring exit_support as true
             // in the configuration.
-            '!' => if exit_support {std::process::exit(2);},
+            '!' => {
+                if exit_support {
+                    std::process::exit(2);
+                }
+            }
 
             // Increment value by 1 in current cell possition.
             // if the curren't value for the cell is 255,
@@ -114,7 +121,7 @@ pub fn brainfuck(programm: String, config: BFConfig) -> [u8; 3000] {
                 }
 
                 cells[*possition] = cell;
-            },
+            }
 
             // Decrement value by 1 in current cell possition
             '-' => {
@@ -127,7 +134,7 @@ pub fn brainfuck(programm: String, config: BFConfig) -> [u8; 3000] {
                 }
 
                 cells[*possition] = cell;
-            },
+            }
 
             // Move the current possition to the next cell
             '>' => {
@@ -136,16 +143,17 @@ pub fn brainfuck(programm: String, config: BFConfig) -> [u8; 3000] {
                 } else {
                     *possition += 1
                 }
-            },
+            }
 
             // Go back one cell
             '<' => {
                 if (*possition as i32) == 0 {
                     *possition = 2999;
                 } else {
-                    *possition = *&mut ((*possition as usize).checked_sub(1)).unwrap_or_default() as usize;
+                    *possition =
+                        *&mut ((*possition as usize).checked_sub(1)).unwrap_or_default() as usize;
                 }
-            },
+            }
 
             // Print the current cell's ASCII value.
             '.' => print!("{}", cells[*possition] as char),
@@ -160,16 +168,27 @@ pub fn brainfuck(programm: String, config: BFConfig) -> [u8; 3000] {
                 match std::io::stdin().read_exact(&mut buf) {
                     Ok(_) => cells[*possition] = buf[0], // Add buffer from input
                     Err(_) => {
-                        bf_error::error("IO error".to_string(), "Error while trying to get an input from stdin".to_string());
-                    },
+                        bf_error::error(
+                            "IO error".to_string(),
+                            "Error while trying to get an input from stdin".to_string(),
+                        );
+                    }
                 }
-            },
+            }
 
             // Left brackets are like c while(cur_block_value != 0) loop.
-            '[' => if cells[*possition] == 0  {index = do_left_bracket(chars.clone(), index)},
+            '[' => {
+                if cells[*possition] == 0 {
+                    index = do_left_bracket(chars.clone(), index)
+                }
+            }
 
             // if block currently pointed to's value is not zero, jump back to [
-            ']' => if cells[*possition] != 0  {index = do_right_bracket(chars.clone(), index)},
+            ']' => {
+                if cells[*possition] != 0 {
+                    index = do_right_bracket(chars.clone(), index)
+                }
+            }
 
             // In Brainfuck, other ASCII characters that
             // are not ["+", ",", "-", "<", ">", ".", "[", "]"]
@@ -194,7 +213,6 @@ pub fn brainfuck(programm: String, config: BFConfig) -> [u8; 3000] {
     return cells;
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -202,7 +220,9 @@ mod tests {
     #[test]
     fn cell_add() {
         let code: String = "+".to_string();
-        let config: BFConfig = BFConfig { ..default_bf_config() };
+        let config: BFConfig = BFConfig {
+            ..default_bf_config()
+        };
         let cells = brainfuck(code, config);
         let mut res: [u8; 3000] = [0; 3000];
 
@@ -213,7 +233,9 @@ mod tests {
     #[test]
     fn cell_sub() {
         let code: String = "-".to_string();
-        let config: BFConfig = BFConfig { ..default_bf_config() };
+        let config: BFConfig = BFConfig {
+            ..default_bf_config()
+        };
 
         let cells = brainfuck(code, config);
         let mut res: [u8; 3000] = [0; 3000];
@@ -225,7 +247,9 @@ mod tests {
     #[test]
     fn cell_sub_plus() {
         let code: String = "++-".to_string();
-        let config: BFConfig = BFConfig { ..default_bf_config() };
+        let config: BFConfig = BFConfig {
+            ..default_bf_config()
+        };
 
         let cells = brainfuck(code, config);
         let mut res: [u8; 3000] = [0; 3000];
@@ -237,7 +261,9 @@ mod tests {
     #[test]
     fn cell_left() {
         let code: String = ">+".to_string();
-        let config: BFConfig = BFConfig { ..default_bf_config() };
+        let config: BFConfig = BFConfig {
+            ..default_bf_config()
+        };
 
         let cells = brainfuck(code, config);
         let mut res: [u8; 3000] = [0; 3000];
@@ -249,7 +275,9 @@ mod tests {
     #[test]
     fn cell_right() {
         let code: String = "><+".to_string();
-        let config: BFConfig = BFConfig { ..default_bf_config() };
+        let config: BFConfig = BFConfig {
+            ..default_bf_config()
+        };
 
         let cells = brainfuck(code, config);
         let mut res: [u8; 3000] = [0; 3000];
@@ -261,7 +289,9 @@ mod tests {
     #[test]
     fn cell_right_end() {
         let code: String = "<+".to_string();
-        let config: BFConfig = BFConfig { ..default_bf_config() };
+        let config: BFConfig = BFConfig {
+            ..default_bf_config()
+        };
 
         let cells = brainfuck(code, config);
         let mut res: [u8; 3000] = [0; 3000];
@@ -273,7 +303,9 @@ mod tests {
     #[test]
     fn cell_left_end() {
         let code: String = "<>+".to_string();
-        let config: BFConfig = BFConfig { ..default_bf_config() };
+        let config: BFConfig = BFConfig {
+            ..default_bf_config()
+        };
 
         let cells = brainfuck(code, config);
         let mut res: [u8; 3000] = [0; 3000];
@@ -284,12 +316,13 @@ mod tests {
 
     #[test]
     fn cell_loop() {
-
         // Move 5 to the left
         // Loop and adding 1 to c1
         // and removing 1 to c2
         let code: String = ">+++++[<+>-]".to_string();
-        let config: BFConfig = BFConfig { ..default_bf_config() };
+        let config: BFConfig = BFConfig {
+            ..default_bf_config()
+        };
 
         let cells = brainfuck(code, config);
         let mut res: [u8; 3000] = [0; 3000];
@@ -301,7 +334,9 @@ mod tests {
     #[test]
     fn comments() {
         let code: String = "Lets add one (+) move to left (>) and add 2 (++)".to_string();
-        let config: BFConfig = BFConfig { ..default_bf_config() };
+        let config: BFConfig = BFConfig {
+            ..default_bf_config()
+        };
 
         let cells = brainfuck(code, config);
         let mut res: [u8; 3000] = [0; 3000];
@@ -310,6 +345,4 @@ mod tests {
         res[1] = 2;
         assert_eq!(res, cells);
     }
-
-
 }

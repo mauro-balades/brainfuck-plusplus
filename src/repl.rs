@@ -11,11 +11,10 @@
 // Copiright 2021 <mauro.balades@tutanota.com>
 //
 
-
 use owo_colors::OwoColorize;
 
-use std::io::{BufRead, BufReader, Write};
 use std::io;
+use std::io::{BufRead, BufReader, Write};
 
 use crate::brainfuck::*;
 
@@ -27,7 +26,6 @@ fn info() {
 }
 
 pub fn repl(config: BFConfig) {
-
     info();
 
     // Make an infinite loop.

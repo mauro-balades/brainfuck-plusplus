@@ -11,23 +11,22 @@
 // Copiright 2021 <mauro.balades@tutanota.com>
 //
 
-use std::io::prelude::*;
 use std::fs::*;
+use std::io::prelude::*;
 use std::path::Path;
 use structopt::StructOpt;
 
-mod errors;
 mod brainfuck;
+mod errors;
 mod repl;
 
-pub use errors::*;
 pub use brainfuck::*;
+pub use errors::*;
 pub use repl::*;
 
 #[derive(StructOpt, Debug)]
 #[structopt(name = "Brainfuck")]
 struct Opt {
-
     // The number of occurrences of the `v/verbose` flag
     /// Verbose mode (-v, -vv, -vvv, etc.)
     #[structopt(short, long, parse(from_occurrences))]
@@ -43,24 +42,22 @@ struct Opt {
 }
 
 fn main() {
-
     // Parse arguments with StructOpt
     let opt = Opt::from_args();
 
     // Declare the brainfuck config with
     // it's default values.
-    let bf_config =  BFConfig {
+    let bf_config = BFConfig {
         debug: opt.verbose,
         exit_support: opt.exit,
         ..default_bf_config()
     };
 
-    if ! opt.file.is_none() {
+    if !opt.file.is_none() {
         let file_path = opt.file.as_ref().map(String::as_str).unwrap();
 
         // check if file eixsts
         if Path::new(file_path).exists() {
-
             // Open file
             let mut file = File::open(file_path).expect("Error opening File");
 
@@ -70,11 +67,12 @@ fn main() {
             // Read file's contents and store it as a String
             // in [contents]. If it does not work, throw an
             // error.
-            file.read_to_string(&mut contents).expect("Unable to read to string");
+            file.read_to_string(&mut contents)
+                .expect("Unable to read to string");
 
             // interpret the brainfuck code
             brainfuck(contents, bf_config);
-            return
+            return;
         }
     }
 
