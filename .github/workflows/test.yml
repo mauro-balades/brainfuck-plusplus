@@ -25,12 +25,13 @@ jobs:
 
     - name: run bf tests (skiping inputs)
       run: |
-        cargo run -- test/add_and_sub.b
-        cargo run -- test/crazy.b
-        cargo run -- test/debug_symbol.b
-        cargo run -- test/loops.b
-        cargo run -- test/move_boundaries.b
-        cargo run -- test/right_and_left.b
+        cargo run -- test/add_and_sub.b -vvv
+        cargo run -- test/crazy.b -vvv
+        cargo run -- test/debug_symbol.b -vvv
+        cargo run -- test/loops.b -vvv
+        cargo run -- test/move_boundaries.b -vvv
+        cargo run -- test/right_and_left.b -vvv
+        cargo run -- test/long.b -vvv
 
 
     - name: run bf examples
