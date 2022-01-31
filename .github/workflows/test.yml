@@ -31,7 +31,7 @@ jobs:
         cargo run -- test/loops.b -vvv
         cargo run -- test/move_boundaries.b -vvv
         cargo run -- test/right_and_left.b -vvv
-        cargo run -- test/long.b -vvv
+        timeout 10 "cargo run -- test/fib.b -vvv" -l
 
 
     - name: run bf examples
