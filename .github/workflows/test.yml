@@ -22,16 +22,14 @@ jobs:
       run: cargo build --verbose
     - name: Run tests
       run: cargo test --verbose
-
-    - name: run bf tests (skiping inputs)
-      run: |
-        cargo run -- test/add_and_sub.b -vvv
-        cargo run -- test/crazy.b -vvv
-        cargo run -- test/debug_symbol.b -vvv
-        cargo run -- test/loops.b -vvv
-        cargo run -- test/move_boundaries.b -vvv
-        cargo run -- test/right_and_left.b -vvv
-        timeout 10 "cargo run -- test/fib.b -vvv" -l
+      
+    - run: cargo run -- test/add_and_sub.b -vvv
+    - run: cargo run -- test/crazy.b -vvv
+    - run: cargo run -- test/debug_symbol.b -vvv
+    - run: cargo run -- test/loops.b -vvv
+    - run: cargo run -- test/move_boundaries.b -vvv
+    - run: cargo run -- test/right_and_left.b -vvv
+    - run: timeout 10 "cargo run -- ./test/fib.b -vvv" -l
 
 
     - name: run bf examples
