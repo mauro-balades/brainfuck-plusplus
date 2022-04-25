@@ -20,8 +20,8 @@ use crate::brainfuck::*;
 
 fn info() {
     print!(
-        "\n{}\n-----------------------------------------\n| Type {} or press CTRL + C to exit |\n-----------------------------------------\n",
-        "Brainfuck REPL".bright_green(),
+        "\n{}\n---------------------------------------\n| Type {} or press CTRL + C to exit |\n---------------------------------------\n",
+        "Brainfuck++ REPL".bright_green(),
         "quit".bright_blue());
 }
 
@@ -36,7 +36,7 @@ pub fn repl(config: BFConfig) {
 }
 
 fn get_input() -> io::Result<String> {
-    print!("\n{} > ", "brainfuck".bright_blue());
+    print!("\n{} > ", "brainfuck++".bright_blue());
     io::stdout().flush()?;
     BufReader::new(io::stdin())
         .lines()

@@ -1,55 +1,50 @@
 
-# Mini Brainfuck
+# Brainfuck++
 
-A super small brainfuck interpreter and compiler.
+A brainfuck interpreter and compiler with some extra functionality.
 
 ## About brainfuck
 
-The idea behind `brainfuck` is memory manipulation. Basically you are given an array of 30,000 1byte memory blocks. The array size is actually dependent upon the implementation used in the compiler or interpretor, but standard brainfuck states 30,000. Within this array, you can increase the memory pointer, increase the value at the memory pointer, etc. Let me first present to you the 8 operators available to us.
+The idea behind `brainfuck` is memory manipulation. Basically you are given an array of 30,000 1byte memory blocks. The array size is actually dependent upon the implementation used in the compiler or interpretor, but standard brainfuck states 30,000. Within this array, you can increase the memory pointer, increase the value at the memory pointer, etc. Let me first present to you the 10 operators available to us.
 
-```brainfuck
-> = increases memory pointer, or moves the pointer to the right 1 block.
-< = decreases memory pointer, or moves the pointer to the left 1 block.
-+ = increases value stored at the block pointed to by the memory pointer
-- = decreases value stored at the block pointed to by the memory pointer
-[ = like c while(cur_block_value != 0) loop.
-] = if block currently pointed to's value is not zero, jump back to [
-, = like c getchar(). input 1 character.
-. = like c putchar(). print 1 character to the console
-```
-
-Extra characters:
-
-| Symbol 	| Activation argument     	| Description                                                            	|
-|--------	|-------------------------	|------------------------------------------------------------------------	|
-| `#`    	| `-v` or `-vv` or `-vvv` 	| This symbol is used to debug the current's cell value.                 	|
-| `!`    	| `--exit` or `-e`        	| The `!` symbol will be used to exit the programm with an exit code `2` 	|
+| Symbol 	| Description                                                            	|
+|--------	|-------------------------------------------------------------------------	|
+| `#`    	| This symbol is used to debug the current's cell value.                 	|
+| `!`    	| The `!` symbol will be used to exit the programm with an exit code `2` 	|
+| `>`    	| increases memory pointer, or moves the pointer to the right 1 block.  	|
+| `<`    	| decreases memory pointer, or moves the pointer to the left 1 block.   	|
+| `+`    	| increases value stored at the block pointed to by the memory pointer  	|
+| `-`    	| decreases value stored at the block pointed to by the memory pointer  	|
+| `]`    	| like c `while(cur_block_value != 0)` loop.                               	|
+| `[`    	| if block currently pointed to's value is not zero, jump back to `[`      	|
+| `,`    	| like c `getchar()`. input 1 character. 	                                |
+| `.`    	| like c `putchar()`. print 1 character to the console                     	|
 
 
 #### Some rules:
 
-- Any arbitrary character besides the 8 listed above should be ignored by the
-compiler or interpretor. Characters besides the 8 operators should be con-
+- Any arbitrary character besides the 10 listed above should be ignored by the
+compiler or interpretor. Characters besides the 10 operators should be con-
 sidered comments.
 
 - All memory blocks on the "array" are set to zero at the beginning of the
 program. And the memory pointer starts out on the very left most memory
 block.
 
-- Loops may be nested as many times as you want. But all [ must have a corre-
-sponding ].
+- Loops may be nested as many times as you want. But all `[` must have a corre-
+sponding `]`.
 
 ## Installation
 
 To install it, simply add the following line to your `Cargo.toml`
 
 ```
-mini-brainfuck = "0.1.3"
+brainfuck-plusplus = "0.1.3"
 ```
 
 You can also install the CLI by doing:
 ```shell
-$ cargo install mini-brainfuck
+$ cargo install brainfuck-plusplus
 $ brainfuck -V # Check the version for brainfuck.
 ```
 
@@ -102,7 +97,6 @@ use brainfuck::*;
 
 let bf_config =  BFConfig {
     debug: 0,
-    exit_support: false,
     ..default_bf_config() // support for default values
 };
 
@@ -114,9 +108,6 @@ pub struct BFConfig {
 
     // The level of verbosity (default to 0)
     pub(crate) debug: i32,
-
-    // Add support for the `!` symbol.
-    pub(crate) exit_support: bool,
 }
 ```
 
@@ -130,7 +121,7 @@ This is a hello world example in brainfuck.
 ]<+.
 ```
 
-* [more examples](https://github.com/mauro-balades/mini-brainfuck/tree/main/examples)
+* [more examples](https://github.com/mauro-balades/brainfuck-plusplus/tree/main/examples)
 
 ## Ideas
 
@@ -151,4 +142,4 @@ Here are some ideas:
 
 ## License
 
-This project is under the license of [MIT](https://github.com/mauro-balades/mini-brainfuck/blob/main/LICENSE)
+This project is under the license of [MIT](https://github.com/mauro-balades/brainfuck-plusplus/blob/main/LICENSE)

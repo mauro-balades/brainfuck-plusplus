@@ -22,15 +22,11 @@ use crate::errors as bf_error;
 pub struct BFConfig {
     // The level of verbosity (default to 0)
     pub(crate) debug: i32,
-
-    // Add support for the `!` symbol.
-    pub(crate) exit_support: bool,
 }
 
 pub fn default_bf_config() -> BFConfig {
     BFConfig {
         debug: 0,
-        exit_support: false,
     }
 }
 
@@ -81,7 +77,6 @@ pub fn brainfuck(programm: String, config: BFConfig) -> [u8; 3000] {
 
     // configuration
     let debug: i32 = config.debug;
-    let exit_support: bool = config.exit_support;
 
     let mut index: i32 = 0;
     while index < chars.clone().count().try_into().unwrap() {
@@ -93,9 +88,7 @@ pub fn brainfuck(programm: String, config: BFConfig) -> [u8; 3000] {
             // in this interpreter (if debug option is set to
             // true)
             '#' => {
-                if debug > 0 {
-                    println!("{}", cells[*possition])
-                }
+                println!("{}", cells[*possition])
             }
 
             // `!` is a custom symbold, it can be used to exit
@@ -103,9 +96,7 @@ pub fn brainfuck(programm: String, config: BFConfig) -> [u8; 3000] {
             // enable it by declaring exit_support as true
             // in the configuration.
             '!' => {
-                if exit_support {
-                    std::process::exit(2);
-                }
+                std::process::exit(2);
             }
 
             // Increment value by 1 in current cell possition.

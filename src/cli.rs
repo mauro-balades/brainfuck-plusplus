@@ -32,11 +32,6 @@ struct Opt {
     #[structopt(short, long, parse(from_occurrences))]
     verbose: i32,
 
-    // The number of occurrences of the `v/verbose` flag
-    /// Verbose mode (-v, -vv, -vvv, etc.)
-    #[structopt(short, long)]
-    exit: bool,
-
     #[structopt(name = "FILE")]
     file: Option<String>,
 }
@@ -49,7 +44,6 @@ fn main() {
     // it's default values.
     let bf_config = BFConfig {
         debug: opt.verbose,
-        exit_support: opt.exit,
         ..default_bf_config()
     };
 
