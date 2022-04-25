@@ -14,11 +14,11 @@
 use owo_colors::OwoColorize;
 use std::process;
 
-pub fn error(exception: String, error: String) {
+pub fn report_error(exception: String, error: String) {
     println!("Brainfuck error");
     println!("------------------");
-    println!("Error: [{:}]", error.bright_blue());
-    println!("Exception: \"{:}\"", exception.yellow());
+    println!("Error: [{:}]", exception.yellow());
+    println!("Exception: {:}", error.bright_blue());
     println!("\nExiting...");
 
     process::exit(0x0100);

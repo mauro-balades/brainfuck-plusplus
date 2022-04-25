@@ -50,24 +50,21 @@ fn main() {
     if !opt.file.is_none() {
         let file_path = opt.file.as_ref().map(String::as_str).unwrap();
 
-        // check if file eixsts
-        if Path::new(file_path).exists() {
-            // Open file
-            let mut file = File::open(file_path).expect("Error opening File");
+        // Open file
+        let file = File::open(file_path).map_err(|err| report_error("IOERR".to_string(), err.to_string()));
 
-            // Define file's contents as a new String
-            let mut contents = String::new();
+        // Define file's contents as a new String
+        let mut contents = String::new();
 
-            // Read file's contents and store it as a String
-            // in [contents]. If it does not work, throw an
-            // error.
-            file.read_to_string(&mut contents)
-                .expect("Unable to read to string");
+        // Read file's contents and store it as a String
+        // in [contents]. If it does not work, throw an
+        // error.
+        file.unwrap().read_to_string(&mut contents)
+            .expect("Unable to read to string");
 
-            // interpret the brainfuck code
-            brainfuck(contents, bf_config);
-            return;
-        }
+        // interpret the brainfuck code
+        brainfuck(contents, bf_config);
+        return;
     } else {
         repl(bf_config);
     }

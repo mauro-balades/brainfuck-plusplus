@@ -53,7 +53,7 @@ fn do_right_bracket(chars: Chars, index: i32) -> i32 {
         ix -= 1;
 
         if ix >= chars.clone().count().try_into().unwrap() {
-            bf_error::error(
+            bf_error::report_error(
                 "Syntax error".to_string(),
                 "couldn't find next matching ']'".to_string(),
             );
@@ -159,7 +159,7 @@ pub fn brainfuck(programm: String, config: BFConfig) -> [u8; 3000] {
                 match std::io::stdin().read_exact(&mut buf) {
                     Ok(_) => cells[*possition] = buf[0], // Add buffer from input
                     Err(_) => {
-                        bf_error::error(
+                        bf_error::report_error(
                             "IO error".to_string(),
                             "Error while trying to get an input from stdin".to_string(),
                         );
