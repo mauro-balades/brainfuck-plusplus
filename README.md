@@ -15,8 +15,8 @@ The idea behind `brainfuck` is memory manipulation. Basically you are given an a
 | `<`    	| decreases memory pointer, or moves the pointer to the left 1 block.   	|
 | `+`    	| increases value stored at the block pointed to by the memory pointer  	|
 | `-`    	| decreases value stored at the block pointed to by the memory pointer  	|
-| `]`    	| like c `while(cur_block_value != 0)` loop.                               	|
-| `[`    	| if block currently pointed to's value is not zero, jump back to `[`      	|
+| `[`    	| like c `while(cur_block_value != 0)` loop.                               	|
+| `]`    	| if block currently pointed to's value is not zero, jump back to `[`      	|
 | `,`    	| like c `getchar()`. input 1 character. 	                                |
 | `.`    	| like c `putchar()`. print 1 character to the console                     	|
 
@@ -24,15 +24,13 @@ The idea behind `brainfuck` is memory manipulation. Basically you are given an a
 #### Some rules:
 
 - Any arbitrary character besides the 10 listed above should be ignored by the
-compiler or interpretor. Characters besides the 10 operators should be con-
-sidered comments.
+compiler or interpretor. Characters besides the 10 operators should be considered comments.
 
 - All memory blocks on the "array" are set to zero at the beginning of the
 program. And the memory pointer starts out on the very left most memory
 block.
 
-- Loops may be nested as many times as you want. But all `[` must have a corre-
-sponding `]`.
+- Loops may be nested as many times as you want. But all `[` must have a corresponding `]`.
 
 ## Installation
 
